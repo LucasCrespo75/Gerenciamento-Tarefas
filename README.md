@@ -6,14 +6,12 @@ Este projeto tem como objetivo criar um sistema de avaliação utilizando Spring
 ## Pré-requisitos
 Antes de rodar o projeto, verifique se você possui os seguintes itens instalados no seu sistema:
 
- 1. Docker e Docker Compose
-Caso ainda não tenha o Docker instalado, siga as instruções de instalação abaixo:
- - Instalação do Docker
- - Instalação do Docker Compose
- - 
-2. Git para clonar o repositório
-Caso ainda não tenha o Git instalado, você pode baixá-lo em:
- - Instalar o Git
+1. **Docker** e **Docker Compose** instalados no seu sistema. Caso não tenha, siga as instruções para instalação:
+   - [Docker - Instalação](https://docs.docker.com/get-docker/)
+   - [Docker Compose - Instalação](https://docs.docker.com/compose/install/)
+
+2. **Git** para clonar o repositório. Caso não tenha,
+   - Instale o Git a partir de [aqui](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 ## Passos para rodar o projeto
 **1. Clone o repositório**
@@ -29,7 +27,7 @@ Copiar
 Editar
 cd projeto-avaliacao
 
-**2. Suba os contêineres com Docker Compose**
+2. **Suba os contêineres com Docker Compose**
 Agora, vamos subir todos os serviços necessários para rodar o projeto (backend, frontend e banco de dados). Para isso, use o comando abaixo:
 bash
 Copiar
@@ -42,7 +40,7 @@ Este comando realiza as seguintes ações:
  - Inicia os contêineres do backend, frontend e banco de dados PostgreSQL.
  - Mapeia as portas para permitir o acesso aos serviços localmente em seu navegador.
  - 
-**3. Acessando os serviços**
+3. **Acessando os serviços**
 Depois que o comando acima for executado e os contêineres estiverem em funcionamento, você pode acessar os serviços da seguinte forma:
 
  - User Service (user-service)
@@ -60,7 +58,7 @@ Porta externa: 80 (a mesma porta mapeada para o host).
 Porta interna: 80 (onde o pgAdmin está rodando dentro do contêiner).
 Porta externa: 5050 (a porta que será mapeada para o host).
 
-** 4. Resumo das portas externas** 
+4. **Resumo das portas externas** 
 
  - User Service: http://localhost:8082
  - Task Service: http://localhost:8080
@@ -74,7 +72,7 @@ Usuário: postgres
 Senha: root
 Essas configurações estão definidas automaticamente no docker-compose.yml e não precisam ser alteradas, a menos que você deseje personalizar o banco.
 
-** 5. Verificando os logs ** 
+5. **Verificando os logs** 
 Caso queira acompanhar os logs de execução dos contêineres, use o comando:
 
 bash
