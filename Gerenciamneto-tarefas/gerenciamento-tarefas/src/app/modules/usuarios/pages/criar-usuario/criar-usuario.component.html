@@ -1,0 +1,27 @@
+<div class="container">
+  <mat-card class="form-card">
+    <h2 class="titulo">Criar Usuário</h2>
+    <form [formGroup]="usuarioForm" (ngSubmit)="salvar()">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" formControlName="nome">
+        <mat-error *ngIf="usuarioForm.controls['nome'].invalid && usuarioForm.controls['nome'].touched">
+          Nome é obrigatório.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-error *ngIf="usuarioForm.controls['email'].invalid && usuarioForm.controls['email'].touched">
+          Email inválido.
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="usuarioForm.invalid" class="submit-btn">
+        Salvar
+      </button>
+    </form>
+  </mat-card>
+</div>

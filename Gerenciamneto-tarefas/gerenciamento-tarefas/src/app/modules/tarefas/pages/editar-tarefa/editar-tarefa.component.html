@@ -1,0 +1,45 @@
+<div class="container">
+    <mat-card class="form-card">
+        <h2 class="titulo">Editar Tarefa</h2>
+        <form [formGroup]="tarefaForm" (ngSubmit)="salvarTarefa()">
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Título</mat-label>
+                <input matInput formControlName="titulo">
+                <mat-error *ngIf="tarefaForm.controls['titulo'].invalid && tarefaForm.controls['titulo'].touched">
+                    Título é obrigatório.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Descrição</mat-label>
+                <textarea matInput formControlName="descricao"></textarea>
+                <mat-error *ngIf="tarefaForm.controls['descricao'].invalid && tarefaForm.controls['descricao'].touched">
+                    Descrição é obrigatória.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option value="PENDENTE">Pendente</mat-option>
+                    <mat-option value="EM_ANDAMENTO">Em Andamento</mat-option>
+                    <mat-option value="CONCLUIDO">Concluído</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Responsável</mat-label>
+                <mat-select formControlName="usuarioId">
+                    <mat-option *ngFor="let usuario of usuarios" [value]="usuario.id">
+                        {{ usuario.nome }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="tarefaForm.invalid" class="submit-btn">
+                Salvar
+            </button>
+        </form>
+    </mat-card>
+</div>

@@ -1,0 +1,40 @@
+.container {
+    position: relative;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.titulo {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.mat-icon-button {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+
+.task-list-card {
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.criar-tarefa-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background-color: #ffffffd4;
+}
