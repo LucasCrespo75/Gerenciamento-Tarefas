@@ -10,7 +10,7 @@ export class TarefaService {
     throw new Error('Method not implemented.');
   }
   
-  private apiUrl = 'http://localhost:8080/tarefas'; 
+  private apiUrl = '/api/tarefas';  // Agora apontando para o API Gateway
 
   private tarefaEditadaSubject = new Subject<any>(); 
   tarefaEditada$ = this.tarefaEditadaSubject.asObservable();

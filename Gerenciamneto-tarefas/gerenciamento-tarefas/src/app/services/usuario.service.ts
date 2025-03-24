@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root' // Disponível globalmente na Standalone API
+  providedIn: 'root' 
 })
 export class UsuarioService {
   listarUsuarios() {
     throw new Error('Method not implemented.');
   }
-  private apiUrl = 'http://localhost:8081/usuarios'; 
+  private apiUrl = '/api/usuarios';  // Agora apontando para o API Gateway
 
   constructor(private http: HttpClient) { }
 
