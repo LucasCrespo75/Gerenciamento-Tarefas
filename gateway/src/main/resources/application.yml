@@ -1,54 +1,33 @@
 server:
-  port: 8085  # Porta do API Gateway
+  port: 8085
 
 spring:
   application:
-    name: api-gateway  # Nome da aplicação
-  jmx:
-    enabled: true
+    name: api-gateway
+  config:
+    import: configserver:http://localhost:8888  # Configuração do Config Server
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: false
       routes:
         - id: user-service
-          uri: http://user-service:8081  # URL para o serviço de usuários
+          uri: lb://user-service
           predicates:
-            - Path=/users/**  # Rota para a API de usuários
-
+            - Path=/users/**
         - id: task-service
-          uri: http://task-service:8080  # URL para o serviço de tarefas
+          uri: lb://task-service
           predicates:
-            - Path=/tasks/**  # Rota para a API de tarefas
+            - Path=/tasks/**
 
-        - id: frontend
-          uri: http://frontend:8082  # URL para o frontend (ajustado para uma porta específica)
-          predicates:
-            - Path=/**  # Rota para o frontend
-
-  webflux:
-    cors:
-      mappings:
-        - path: "/**"  # CORS para todas as rotas
-          allowedOrigins:
-            - "http://frontend.com"  # Defina a origem do seu frontend para maior segurança
-          allowedMethods:
-            - GET
-            - POST
-            - PUT
-            - DELETE
-            - PATCH
-          allowedHeaders: "*"  # Permite todos os cabeçalhos
-          allowCredentials: true  # Permitir credenciais (cookies, cabeçalhos de autorização, etc.)
-
-  config:
-    import: "optional:configserver:/application.yml"  # Configuração do arquivo externo, se houver
-
-  eureka:
-    client:
-      serviceUrl:
-        defaultZone: http://eureka-server:8761/eureka/  # URL do servidor Eureka (ajustado para produção)
-      enabled: true  # Habilitado para este serviço (ajustado conforme a necessidade)
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG  # Log detalhado para o API Gateway
-    org.springframework.web.reactive.function.client: DEBUG  # Log detalhado para chamadas reativas do cliente
+    org.springframework.cloud.gateway: DEBUG
