@@ -1,5 +1,6 @@
+version: '3.8'
+
 services:
-  # Serviço para o User Service
   user-service:
     build:
       context: ./user-service
@@ -13,9 +14,9 @@ services:
     networks:
       - my-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
-  # Serviço para o Task Service
   task-service:
     build:
       context: ./task-service
@@ -29,36 +30,41 @@ services:
     networks:
       - my-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
-  # Serviço para o Frontend
   frontend:
     build:
       context: ./Gerenciamneto-tarefas/gerenciamento-tarefas
-      dockerfile: DockerFile    
+      dockerfile: DockerFile
     ports:
       - "80:80"
     networks:
       - my-network
     depends_on:
-      - user-service
-      - task-service
+      user-service:
+        condition: service_started
+      task-service:
+        condition: service_started
 
-  # Banco de dados PostgreSQL
   db:
     image: postgres:16
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: usuario_db 
+      POSTGRES_DB: usuario_db
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - my-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
-  # Serviço para o pgAdmin
   pgadmin:
     container_name: ms_pgadmin
     image: dpage/pgadmin4
@@ -70,7 +76,8 @@ services:
     networks:
       - my-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
 
 networks:
