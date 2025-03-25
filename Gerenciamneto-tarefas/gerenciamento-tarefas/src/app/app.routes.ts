@@ -11,12 +11,12 @@ import { PaginaInicialComponent } from './modules/principal/page/home-page/pagin
 export const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
   { path: 'principal', component: PaginaInicialComponent },
-  { path: 'usuarios', component: ListarUsuariosComponent },  // Rota para listar usuários
-  { path: 'usuarios/criar', component: CriarUsuarioComponent }, // Rota para criar usuário
-  { path: 'usuarios/editar/:id', component: EditarUsuarioComponent }, // Rota para editar usuário
-  { path: 'tarefas', component: ListarTarefasComponent },  // Rota para listar tarefas
-  { path: 'tarefas/criar', component: CriarTarefaComponent }, // Rota para criar tarefa
-  { path: 'tarefas/editar/:id', component: EditarTarefaComponent }, // Rota para editar tarefa
+  { path: 'usuarios', component: ListarUsuariosComponent }, 
+  { path: 'usuarios/criar', component: CriarUsuarioComponent }, 
+  { path: 'usuarios/editar/:id', component: EditarUsuarioComponent }, 
+  { path: 'tarefas', component: ListarTarefasComponent },  
+  { path: 'tarefas/criar', component: CriarTarefaComponent }, 
+  { path: 'tarefas/editar/:id', component: EditarTarefaComponent }, 
 ];
 
 @NgModule({

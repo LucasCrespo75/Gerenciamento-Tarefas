@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -42,6 +43,10 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> editar(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO usuarioEditado = usuarioService.editar(id, usuarioDTO);
         return ResponseEntity.ok(usuarioEditado);
+    }
+    @GetMapping("/usuarios/verificar-email")
+    public boolean verificarEmail(@RequestParam String email) {
+        return usuarioService.isEmailExistente(email);
     }
 
 
