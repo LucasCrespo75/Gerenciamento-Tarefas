@@ -18,7 +18,7 @@
 
     <properties>
         <java.version>17</java.version> <!-- Garantir que o Java 17 seja usado -->
-        <spring-cloud.version>2023.0.5</spring-cloud.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- Codificação UTF-8 -->
         <spring-boot.version>3.2.3</spring-boot.version> <!-- Versão do Spring Boot -->
     </properties>
@@ -49,6 +49,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -59,12 +63,6 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-gateway</artifactId>
-                <version>4.2.1</version>
             </dependency>
 
         </dependencies>

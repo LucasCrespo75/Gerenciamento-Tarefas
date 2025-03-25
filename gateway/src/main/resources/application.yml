@@ -5,21 +5,21 @@ spring:
   application:
     name: api-gateway
   config:
-    import: configserver:http://localhost:8888  # Configuração do Config Server
+    import: configserver:http://localhost:8888
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: false
+          enabled: true
       routes:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users/**
+            - Path=/usuarios/**
         - id: task-service
           uri: lb://task-service
           predicates:
-            - Path=/tasks/**
+            - Path=/tarefas/**
 
 eureka:
   client:
