@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class TarefaService {
-  private apiUrl = 'http://localhost:8085/tarefas';  
+  private apiUrl = '/api/tarefas';
 
   private tarefaEditadaSubject = new Subject<any>();
   tarefaEditada$ = this.tarefaEditadaSubject.asObservable();

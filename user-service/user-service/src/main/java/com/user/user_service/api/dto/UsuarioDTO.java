@@ -18,7 +18,6 @@ public class UsuarioDTO {
     private String email;
     private LocalDateTime dataCriacao;
 
-    // Construtor para converter entidade em DTO
     public UsuarioDTO(Usuario usuario) {
         this.id = usuario.getId();
         this.nome = usuario.getNome();
@@ -30,7 +29,7 @@ public class UsuarioDTO {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.dataCriacao = LocalDateTime.now(); // Ou null, dependendo da lógica
+        this.dataCriacao = LocalDateTime.now();
     }
 
 }

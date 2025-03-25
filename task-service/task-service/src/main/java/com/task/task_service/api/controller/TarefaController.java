@@ -1,7 +1,7 @@
 package com.task.task_service.api.controller;
 
 import com.task.task_service.api.dto.TarefaDTO;
-import com.task.task_service.domain.service.TarefaService; // Importe o serviço
+import com.task.task_service.domain.service.TarefaService;
 import com.task.task_service.domain.status.StatusTarefa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/tarefas")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class TarefaController {
 
     private final TarefaService tarefaService;
+
 
     @GetMapping("/existe/{usuarioId}")
     public ResponseEntity<Boolean> existeTarefaPorUsuario(@PathVariable Long usuarioId) {
