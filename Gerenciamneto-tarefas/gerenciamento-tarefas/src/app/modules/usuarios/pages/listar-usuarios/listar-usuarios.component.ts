@@ -45,7 +45,7 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
   irParaPaginaInicial(): void {
-    this.router.navigate(['/principal']);  
+    this.router.navigate(['/principal']);
   }
 
   irParaCriarUsuario() {
@@ -53,7 +53,7 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
   editarUsuario(id: number) {
-    this.router.navigate(['/usuarios/editar', id]);  
+    this.router.navigate(['/usuarios/editar', id]);
   }
 
   excluirUsuario(id: number) {

@@ -4,23 +4,37 @@ server:
 spring:
   application:
     name: api-gateway
+  main:
+    web-application-type: reactive
   config:
     import: configserver:http://localhost:8888
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/usuarios/**
+            - Path=/api/usuarios/**
+          filters:
+            - RewritePath=/api/(?<s>.*), /${s}
         - id: task-service
           uri: lb://task-service
           predicates:
-            - Path=/tarefas/**
-
+            - Path=/api/tarefas/**
+          filters:
+            - RewritePath=/api/(?<s>.*), /${s}
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
 eureka:
   client:
     serviceUrl:

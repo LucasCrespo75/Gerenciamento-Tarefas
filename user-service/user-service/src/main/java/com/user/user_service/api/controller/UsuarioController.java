@@ -11,12 +11,13 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> salvar(@RequestBody UsuarioDTO usuarioDTO) {
