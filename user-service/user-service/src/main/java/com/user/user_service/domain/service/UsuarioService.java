@@ -35,16 +35,13 @@ public class UsuarioService {
     public void deletar(Long id) {
         log.info("Verificando se o usuário tem tarefas associadas (ID: {})", id);
 
-        // Verifica se o usuário tem tarefas associadas
         boolean tarefaExistente = tarefaClient.existeTarefaPorUsuario(id);
 
         if (tarefaExistente) {
-            // Caso o usuário tenha tarefas associadas, não deleta
             log.warn("Usuário com ID {} não pode ser deletado, pois tem tarefas associadas.", id);
             throw new IllegalArgumentException("Usuário não pode ser deletado, pois tem tarefas associadas.");
         }
 
-        // Se não houver tarefas associadas, deleta o usuário
         usuarioRepository.deleteById(id);
         log.info("Usuário com ID {} foi deletado com sucesso.", id);
     }
@@ -60,7 +57,6 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-        // Atualize os campos necessários
         usuario.setNome(usuarioDTO.getNome());
         usuario.setEmail(usuarioDTO.getEmail());
 
@@ -79,4 +75,8 @@ public class UsuarioService {
     }
 
 
+    public boolean isEmailExistente(String email) {
+        return usuarioRepository.findByEmail(email).isPresent();
+
+    }
 }

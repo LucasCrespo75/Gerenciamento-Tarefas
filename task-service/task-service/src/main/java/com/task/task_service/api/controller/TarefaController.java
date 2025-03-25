@@ -13,9 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/tarefas")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class TarefaController {
 
-    private final TarefaService tarefaService; // Injeção do serviço TarefaService
+    private final TarefaService tarefaService;
 
     @GetMapping("/existe/{usuarioId}")
     public ResponseEntity<Boolean> existeTarefaPorUsuario(@PathVariable Long usuarioId) {
@@ -24,36 +25,33 @@ public class TarefaController {
     }
 
 
-    //lista todas as atividades por colaborador que foi atribuido e por STATUS
     @GetMapping("/filtrar")
     public ResponseEntity<List<TarefaDTO>> filtrarTarefas(
             @RequestParam(required = false) StatusTarefa status,
-            @RequestParam(required = false) Long usuarioId) {  // Parâmetro opcional tarefaId
-        List<TarefaDTO> tarefasDTO = tarefaService.filtrarTarefas(status, usuarioId);  // Passa todos os parâmetros para o serviço
+            @RequestParam(required = false) Long usuarioId) {
+        List<TarefaDTO> tarefasDTO = tarefaService.filtrarTarefas(status, usuarioId);
         return ResponseEntity.ok(tarefasDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TarefaDTO> buscarTarefaPorId(@PathVariable Long id) {
-        // Delegar a lógica para o serviço
         TarefaDTO tarefaDTO = tarefaService.buscarTarefaPorId(id);
 
         if (tarefaDTO != null) {
             return ResponseEntity.ok(tarefaDTO);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Retorna 404 se não encontrar
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
 
     @GetMapping
     public ResponseEntity<List<TarefaDTO>> listarTarefas() {
-        List<TarefaDTO> tarefas = tarefaService.listAllTarefas(); // Chama o serviço para pegar todas as tarefas
+        List<TarefaDTO> tarefas = tarefaService.listAllTarefas();
         return ResponseEntity.ok(tarefas);
     }
 
 
-    // Método para criar uma nova tarefa
     @PostMapping
     public ResponseEntity<TarefaDTO> criarTarefa(@RequestBody TarefaDTO tarefaDTO) {
         TarefaDTO novaTarefa = tarefaService.criar(tarefaDTO); // Chama o serviço para criar a tarefa

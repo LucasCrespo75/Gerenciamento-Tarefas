@@ -1,15 +1,14 @@
 {
     "/api/tarefas": {
-      "target": "http://localhost:8085/tarefas",
-      "secure": false
+        "target": "http://localhost:8085/tarefas",
+        "secure": false
     },
     "/api/usuarios": {
-      "target": "http://localhost:8085/usuarios",
-      "secure": false
+        "target": "http://localhost:8085/usuarios",
+        "secure": false
     },
     "/api": {
-      "target": "http://localhost:8085",
-      "secure": false
+        "target": "http://localhost:8085",
+        "secure": false
     }
-  }
-  
+}

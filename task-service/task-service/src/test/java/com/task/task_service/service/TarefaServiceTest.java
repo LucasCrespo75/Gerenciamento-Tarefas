@@ -64,10 +64,8 @@ class TarefaServiceTest {
 
     @Test
     void deveRetornarVerdadeiroSeTarefaExistePorUsuario() {
-        // Mock do repositório para verificar a existência da tarefa
         when(tarefaRepository.existsByUsuarioId(1L)).thenReturn(true);
 
-        // Verifica se o serviço retorna true
         boolean existe = tarefaService.existeTarefaPorUsuario(1L);
 
         assertTrue(existe);
@@ -76,10 +74,8 @@ class TarefaServiceTest {
 
     @Test
     void deveRetornarFalsoSeTarefaNaoExistePorUsuario() {
-        // Mock do repositório para verificar a inexistência de tarefa
         when(tarefaRepository.existsByUsuarioId(2L)).thenReturn(false);
 
-        // Verifica se o serviço retorna false
         boolean existe = tarefaService.existeTarefaPorUsuario(2L);
 
         assertFalse(existe);
@@ -90,23 +86,18 @@ class TarefaServiceTest {
 
     @Test
     void deveAtualizarTarefaComSucesso() {
-        // Cria uma tarefa mockada
         Tarefa tarefaExistente = new Tarefa();
         tarefaExistente.setId(1L);
         tarefaExistente.setTitulo("Tarefa Antiga");
         tarefaExistente.setStatus(StatusTarefa.PENDENTE);
 
-        // Cria um DTO com novos dados para atualizar
         TarefaDTO tarefaDTO = new TarefaDTO();
         tarefaDTO.setTitulo("Tarefa Atualizada");
         tarefaDTO.setStatus(StatusTarefa.CONCLUIDO);
 
-        // Mock do repositório para buscar a tarefa
         when(tarefaRepository.findById(1L)).thenReturn(Optional.of(tarefaExistente));
-        // Mock do repositório para salvar a tarefa atualizada
         when(tarefaRepository.save(any(Tarefa.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Chama o método do serviço para atualizar a tarefa
         TarefaDTO resultado = tarefaService.editar(1L, tarefaDTO);
 
         assertNotNull(resultado);
@@ -116,26 +107,20 @@ class TarefaServiceTest {
 
     @Test
     void deveLancarErroAoTentarAtualizarTarefaNaoExistente() {
-        // Mock do repositório para retornar Optional.empty, indicando tarefa não encontrada
         when(tarefaRepository.findById(99L)).thenReturn(Optional.empty());
 
-        // Espera que o serviço lance uma RuntimeException
         Exception exception = assertThrows(RuntimeException.class, () -> tarefaService.editar(99L, new TarefaDTO()));
 
-        // Verifica a mensagem de erro esperada
         assertEquals("Tarefa não encontrada", exception.getMessage());
     }
 
 
     @Test
     void deveLancarErroAoTentarExcluirTarefaNaoExistente() {
-        // Mock do repositório para retornar Optional.empty, indicando tarefa não encontrada
         when(tarefaRepository.findById(99L)).thenReturn(Optional.empty());
 
-        // Espera que o serviço lance uma RuntimeException
         Exception exception = assertThrows(RuntimeException.class, () -> tarefaService.deletar(99L));
 
-        // Verifica a mensagem de erro esperada
         assertEquals("Tarefa não encontrada", exception.getMessage());
     }
 }

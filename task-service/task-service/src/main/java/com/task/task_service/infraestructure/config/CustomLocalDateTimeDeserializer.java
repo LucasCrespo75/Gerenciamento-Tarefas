@@ -18,7 +18,7 @@ public class CustomLocalDateTimeDeserializer extends JsonDeserializer<LocalDateT
     public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         String date = p.getText();
         try {
-            return LocalDateTime.parse(date, FORMATTER); // Usando o formato exato
+            return LocalDateTime.parse(date, FORMATTER);
         } catch (DateTimeParseException e) {
             throw new IOException("Erro ao converter data: " + date, e);
         }
