@@ -11,10 +11,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-  hibernate:
-    ddl-auto: update
-    show-sql: true
-  datasource.hikari.maximum-pool-size: 10
+    hibernate:
+      ddl-auto: update
 
 eureka:
   client:
