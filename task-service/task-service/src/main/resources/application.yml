@@ -4,11 +4,11 @@ server:
 spring:
   application:
     name: task-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/tarefa_db
-    username: postgres
-    password: root
-    driver-class-name: org.postgresql.Driver
+    datasource:
+      url: ${SPRING_DATASOURCE_URL}
+      username: ${SPRING_DATASOURCE_USERNAME}
+      password: ${SPRING_DATASOURCE_PASSWORD}
+      driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -17,6 +17,6 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
   instance:
     prefer-ip-address: true

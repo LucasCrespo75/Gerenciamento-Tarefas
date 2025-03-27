@@ -1,6 +1,53 @@
 version: '3.8'
 
 services:
+  config-server:
+    build:
+      context: ./configServe
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    networks:
+      - my-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  eureka-server:
+    build:
+      context: ./eureka
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - my-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+
+  api-gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+    networks:
+      - my-network
+    depends_on:
+      - config-server
+      - eureka-server
+    restart: unless-stopped
+
   user-service:
     build:
       context: ./user-service
@@ -9,13 +56,24 @@ services:
       - "8082:8081"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/usuario_db
-      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_USERNAME=postgres 
       - SPRING_DATASOURCE_PASSWORD=root
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/ 
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888 
     networks:
       - my-network
     depends_on:
       db:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
+      config-server:
+        condition: service_started
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
 
   task-service:
     build:
@@ -27,25 +85,35 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tarefa_db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
     networks:
       - my-network
     depends_on:
       db:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
+      config-server:
+        condition: service_started
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
 
   frontend:
     build:
       context: ./Gerenciamneto-tarefas/gerenciamento-tarefas
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "4200:80"
     networks:
       - my-network
     depends_on:
-      user-service:
+      api-gateway:
         condition: service_started
-      task-service:
-        condition: service_started
+    restart: unless-stopped
 
   db:
     image: postgres:16
@@ -58,12 +126,14 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - my-network
+      - my-network 
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       retries: 5
       timeout: 5s
+      start_period: 180s
+    restart: unless-stopped
 
   pgadmin:
     container_name: ms_pgadmin
